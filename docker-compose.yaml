@@ -1,7 +1,7 @@
 version: "3"
 services:
   mainNode:
-    image: zfq17876911936/chaojigongshi-chain-node:1.0-20201110-nofee
+    image: zfq17876911936/chaojigongshi-chain-node:1.0-20201110
     container_name: xchain
     volumes:
       - $PWD/xchain/data/blockchain:/home/work/xuperunion/data/blockchain
@@ -16,7 +16,7 @@ services:
       - xchain
     restart: on-failure
   otherNode:
-    image: zfq17876911936/chaojigongshi-chain-node:1.0-20201110-nofee
+    image: zfq17876911936/chaojigongshi-chain-node:1.0-20201110
     container_name: other
     volumes:
       - $PWD/other/data/blockchain:/home/work/xuperunion/data/blockchain
@@ -33,7 +33,7 @@ services:
       - mainNode 
     restart: on-failure
   anotherNode:
-    image: zfq17876911936/chaojigongshi-chain-node:1.0-20201110-nofee
+    image: zfq17876911936/chaojigongshi-chain-node:1.0-20201110
     container_name: another
     volumes:
       - $PWD/another/data/blockchain:/home/work/xuperunion/data/blockchain
@@ -50,7 +50,7 @@ services:
       - mainNode
     restart: on-failure
   httpGw:
-    image: zfq17876911936/chaojigongshi-chain-httpgw:1.0-20201110-nofee
+    image: zfq17876911936/chaojigongshi-chain-httpgw:1.0-20201110
     container_name: httpgw
     command: -gateway_endpoint xchain:37101
     ports:

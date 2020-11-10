@@ -1,0 +1,62 @@
+version: "3"
+services:
+  mainNode:
+    image: zfq17876911936/chaojigongshi-chain-node:1.0-20201110-nofee
+    container_name: xchain
+    volumes:
+      - $PWD/xchain/data/blockchain:/home/work/xuperunion/data/blockchain
+      - $PWD/xchain/data/keys:/home/work/xuperunion/data/keys
+      - $PWD/xchain/data/netkeys:/home/work/xuperunion/data/netkeys
+      - $PWD/xchain/conf:/home/work/xuperunion/conf
+    ports:
+      - "37101:37101"
+      - "47101:47101"
+      - "37200:37200"
+    networks:
+      - xchain
+    restart: on-failure
+  otherNode:
+    image: zfq17876911936/chaojigongshi-chain-node:1.0-20201110-nofee
+    container_name: other
+    volumes:
+      - $PWD/other/data/blockchain:/home/work/xuperunion/data/blockchain
+      - $PWD/other/data/keys:/home/work/xuperunion/data/keys
+      - $PWD/other/data/netkeys:/home/work/xuperunion/data/netkeys
+      - $PWD/other/conf:/home/work/xuperunion/conf
+    ports:
+      - "37102:37101"
+      - "47102:47101"
+      - "37202:37200"
+    networks:
+      - xchain
+    depends_on:
+      - mainNode 
+    restart: on-failure
+  anotherNode:
+    image: zfq17876911936/chaojigongshi-chain-node:1.0-20201110-nofee
+    container_name: another
+    volumes:
+      - $PWD/another/data/blockchain:/home/work/xuperunion/data/blockchain
+      - $PWD/another/data/keys:/home/work/xuperunion/data/keys
+      - $PWD/another/data/netkeys:/home/work/xuperunion/data/netkeys
+      - $PWD/another/conf:/home/work/xuperunion/conf
+    ports:
+      - "37103:37101"
+      - "47103:47101"
+      - "37203:37200"
+    networks:
+      - xchain
+    depends_on:
+      - mainNode
+    restart: on-failure
+  httpGw:
+    image: zfq17876911936/chaojigongshi-chain-httpgw:1.0-20201110-nofee
+    container_name: httpgw
+    command: -gateway_endpoint xchain:37101
+    ports:
+      - "8098:8098"
+    networks:
+      - xchain
+    restart: on-failure
+networks:
+  xchain:
